@@ -11,11 +11,13 @@
               <dt class="col-sm-3">Localisation</dt>
               <dd class="col-sm-9"><%= @author.city.name %> (<%= @author.city.zip_code %>).</dd>
               <dt class="col-sm-3">Email</dt>
-              <dd class="col-sm-9"><%= link_to @author.email, "mailto:#{@author.email}" %></dd>
+              <dd class="col-sm-9"><%= mail_to @author.email, @author.email %></dd>
             </dl>
           </div>
       </div>
     </div>
-  </div>
-  <%= link_to '← Retour', :back, :class => 'btn btn-outline-dark btn-sm' %>
+    </div>
+
+    
+  <%= link_to '← Retour', "javascript:history.back()", :class => 'btn btn-outline-dark btn-sm' %>
 
