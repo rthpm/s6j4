@@ -1,0 +1,12 @@
+  <div class="container">
+    <div class="row">
+          <div class="col col-lg-6 mt-3">
+            <h1><%= @gossip.title %></h1>
+            <p><%= @gossip.content %></p>
+            <p>Gossipé par <%= link_to "#{@gossip.user.first_name} #{@gossip.user.last_name}", "/author/#{@gossip.user.id}" %> le <%= @gossip.created_at.to_s(:db) %></p>
+          </div>
+      </div>
+    </div>
+  </div>
+  <%= link_to '← Retour', :back, :class => 'btn btn-outline-dark btn-sm' %>
+

@@ -1,0 +1,19 @@
+<h1>Derniers gossips</h1>
+<p>Quoi de neuf ? Voici les derniers racontards du moment !</p>
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="card-deck">
+        <% @all_gossips.each do |gossip| %>
+          <div class="card col col-lg-6 mt-3">
+            <div class="card-header">
+              <%= gossip.user.first_name %> <%= gossip.user.last_name %>
+            </div>
+            <div class="card-body">
+              <p><%= gossip.title %></p>
+              <%= link_to 'Détails →', "/gossip/#{gossip.id}", :class => 'btn btn-outline-dark btn-sm' %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,21 @@
+<h1>À propos de <%= @author.first_name %> <%= @author.last_name %></h1>
+  <div class="container">
+    <div class="row">
+          <div class="col col-lg-6 mt-3">
+            <blockquote class="blockquote">
+              <%= @author.description %>
+            </blockquote>
+            <dl class="row">
+              <dt class="col-sm-3">Age</dt>
+              <dd class="col-sm-9"><%= @author.age %></dd>
+              <dt class="col-sm-3">Localisation</dt>
+              <dd class="col-sm-9"><%= @author.city.name %> (<%= @author.city.zip_code %>).</dd>
+              <dt class="col-sm-3">Email</dt>
+              <dd class="col-sm-9"><%= link_to @author.email, "mailto:#{@author.email}" %></dd>
+            </dl>
+          </div>
+      </div>
+    </div>
+  </div>
+  <%= link_to '← Retour', :back, :class => 'btn btn-outline-dark btn-sm' %>
+

@@ -1,0 +1,13 @@
+nav.navbar {
+  margin-bottom: 48pt;
+}
+
+h1 {
+  margin-bottom: 1em;
+}
+
+p a,
+dd a {
+  color: #000000;
+  font-weight: bold;
+}
