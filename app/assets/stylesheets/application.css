@@ -1,3 +1,7 @@
+/*
+ *= require_tree .
+ *= require_self
+ */
 nav.navbar {
   margin-bottom: 48pt;
 }
@@ -10,4 +14,10 @@ p a,
 dd a {
   color: #000000;
   font-weight: bold;
+}
+
+.list-group a {
+  color: #000000;
+  text-decoration: none;
+  font-weight: normal;
 }

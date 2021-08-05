@@ -1,12 +1,28 @@
   <div class="container">
     <div class="row">
-          <div class="col col-lg-6 mt-3">
-            <h1><%= @gossip.title %></h1>
-            <p><%= @gossip.content %></p>
-            <p>Gossipé par <%= link_to "#{@gossip.user.first_name} #{@gossip.user.last_name}", "/author/#{@gossip.user.id}" %> le <%= @gossip.created_at.to_s(:db) %></p>
+      <div class="col col-lg-6 mt-3">
+        <p><%= link_to "#{@gossip.user.first_name} #{@gossip.user.last_name}", "/user/#{@gossip.user.id}", :class => "userlink" %></p>
+        <h1><%= @gossip.title %></h1>
+        <p><%= @gossip.content %></p>
+        <p class="text-mute"><small>Gossipé le <%= @gossip.created_at.to_s(:db) %> depuis <%= link_to @gossip.user.city.name, "/city/#{@gossip.user.city.id}" %></small></p>
+        <%= link_to "Éditer le Gossip", "/gossip/#{@gossip.id}/edit", class: 'btn btn-sm btn-dark' %>
+        <%= link_to "Effacer le Gossip", @gossip, method: :delete, class: 'btn btn-sm btn-dark' %><br/>
+      <%= link_to '← Retour', "javascript:history.back()", :class => 'btn btn-outline-dark btn-sm mt-3' %>
+      <h2 class="h4 mt-3">Commentaires</h2>
+      <div class="list-group list-group-flush">
+      <% @gossip.comments.order("updated_at","created_at").reverse.each do |comment| %>
+        <%= link_to "/gossip/#{@gossip.id}/comment/#{comment.id}/edit", :action => 'go' do %>
+          <div class="list-group-item list-group-item-action">
+            <p><b><%= comment.user.first_name %> <%= comment.user.last_name %></b> <small class="text-muted"><%= time_ago_in_words(comment.created_at) %>
+              <% if comment.updated_at > comment.created_at %>
+                  · màj. <%= time_ago_in_words(comment.updated_at) %>
+                <% end %>
+            </small></p>
+            <p><%= comment.content %></p>
           </div>
+        <% end %>
+      <% end %> 
+      </div>
       </div>
     </div>
-  </div>
-  <%= link_to '← Retour', "javascript:history.back()", :class => 'btn btn-outline-dark btn-sm' %>
-
+</div>

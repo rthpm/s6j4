@@ -1,0 +1,7 @@
+<div class="form-group col col-lg-6">
+  <%= form_with(model: gossip) do |form| %>
+    <%= form.text_field :title, :class => "form-control mb-3" %>
+      <%= form.text_area :content, :class => "form-control mb-3" %>
+      <%= form.submit %>
+  <% end %>
+</div>

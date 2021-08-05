@@ -1,0 +1,24 @@
+<h1>Éditer un Gossip</h1>
+
+<% if @gossip.errors.any? %>
+<div class="alert alert-danger" role="alert">
+  <p>Le Gossip n’a pas pu être modifié pour la/les raison(s) suivante(s) :</p>
+  <ul>
+    <% @gossip.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<div class="container">
+  <div class="row">
+    <%= form_tag url_for(action: 'update'), method: "put" do %>    
+      <div class="form-group col col-lg-6">
+          <%= text_field_tag 'title', @gossip.title, class: 'form-control mb-3' %>
+          <%= text_area_tag 'content', @gossip.content, class: 'form-control mb-3' %>
+          <%= submit_tag "Mettre à jour le Gossip", class: 'btn btn-sm btn-dark' %>
+    <% end %>
+      </div>
+  </div>
+</div>

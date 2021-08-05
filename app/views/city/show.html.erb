@@ -1,0 +1,20 @@
+<h1>Gossips de <%= @city.name %></h1>
+<div class="container">
+  <div class="row">
+    <div class="list-group list-group-flush">
+      <% @all_gossips.each do |gossip| %>
+        <div class="col col-lg-6">
+            <%= link_to "/gossip/#{gossip.id}", :action => 'go' do %>
+            <div class="list-group-item list-group-item-action">
+              <p><b><%= gossip.user.first_name %> <%= gossip.user.last_name %></b> <small class="text-muted"><%= time_ago_in_words(gossip.created_at) %></small></p>
+              <p class="h5"><%= gossip.title %></p>
+              <p><%= gossip.content.truncate(100) %></p>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <%= link_to '← Retour', "javascript:history.back()", :class => 'btn btn-outline-dark btn-sm' %>
+</div>
+

@@ -1,0 +1,24 @@
+<h1>Envoyer un nouveau Gossip</h1>
+
+<% if @gossip.errors.any? %>
+<div class="alert alert-danger" role="alert">
+  <p>Le Gossip n’a pas pu être créé pour la/les raison(s) suivante(s) :</p>
+  <ul>
+    <% @gossip.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<div class="container">
+  <div class="row">
+    <%= form_tag url_for(action: 'create'), method: "post" do %>    
+      <div class="form-group col col-lg-6">
+          <%= text_field_tag 'title', nil, placeholder: 'Titre', class: 'form-control mb-3' %>
+          <%= text_area_tag 'content', nil, placeholder: 'À quoi pensez-vous ?', class: 'form-control mb-3' %>
+          <%= submit_tag "Envoyer le Gossip", class: 'btn btn-sm btn-dark' %>
+      </div>
+    <% end %>
+  </div>
+</div>
