@@ -1,26 +1,57 @@
-<h1>Derniers Gossips</h1>
-<p>Quoi de neuf ? Voici les derniers racontards du moment !</p>
-  <div class="container">
+<% if @gossip.errors.any? %>
+<div class="alert alert-danger" role="alert">
+  <p>Le Gossip n’a pas pu être créé pour la/les raison(s) suivante(s) :</p>
+  <ul>
+    <% @gossip.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
 
-    <div class="row">
-      <div class="list-group list-group-flush">
-        <% @all_gossips.order("updated_at","created_at").reverse.each do |gossip| %>
-          <div class="col col-lg-6">
-            <%= link_to "/gossip/#{gossip.id}", :action => 'go' do %>
-            <div class="list-group-item list-group-item-action">
-              <p><b><%= gossip.user.first_name %> <%= gossip.user.last_name %></b> <small class="text-muted"><%= time_ago_in_words(gossip.created_at) %> 
-              <% if gossip.updated_at > gossip.created_at %>
-                  · màj. <%= time_ago_in_words(gossip.updated_at) %>
-                <% end %>
-              </small></p>
-              <p class="h5"><%= gossip.title %></p>
-              <p><%= gossip.content.truncate(100) %></p>
-              <p class="text-muted"><%= gossip.comments.count %> commentaires </p>
-            </div>
-          <% end %>
+<div class="container">
+  <div class="row">
+  <h1 class="h4 mb-4">Accueil</h1>
+    <div class="list-group list-group-flush">
+
+  <% if User.find_by(id: session[:user_id]) %>
+
+    <%= form_tag url_for(action: 'create'), method: "post" do %>    
+      <div class="form-group col col-lg-6">
+          <%= text_field_tag 'title', nil, placeholder: 'Titre', class: 'form-control mb-3' %>
+          <%= text_area_tag 'content', nil, placeholder: "À quoi pensez-vous #{current_user.first_name} ?", class: 'form-control mb-3' %>
+        <%= submit_tag "Envoyer", class: 'btn btn-sm btn-dark mb-5' %>
+      </div>
+    <% end %>
+
+
+  <% end %>
+      <% @all_gossips.order("updated_at","created_at").reverse.each do |gossip| %>
+        <div class="col col-lg-6">
+          <div class="list-group-item list-group-item-action">
+            <%= link_to gossip_path(gossip.id), :class => 'listlink', :action => 'go' do %>
+            <p><b><%= gossip.user.first_name %> <%= gossip.user.last_name %></b> <small class="text-muted"><%= time_ago_in_words(gossip.created_at) %> 
+            <div>
+            <% if gossip.updated_at > gossip.created_at %>
+                · màj. <%= time_ago_in_words(gossip.updated_at) %>
+              <% end %>
+            </small></p>
+            <p class="h5"><%= gossip.title %></p>
+            <p><%= gossip.content.truncate(100) %></p>
           </div>
         <% end %>
-      </div>
+        <p><%= link_to "#{gossip.comments.count} commentaires", gossip_path(gossip.id), :class => 'userlink' %> ·  
+        <% if current_user && liked?(gossip, current_user) %>
+          <%= link_to "#{gossip.likes.count} likes", gossip_like_path(gossip.id, Like.find_by(user_id: current_user.id, gossip_id: gossip.id)), method: "delete", :class => 'userlink' %></p>
+        <% elsif current_user %>
+          <%= link_to "#{gossip.likes.count} likes", gossip_like_index_path(gossip.id), method: "post", :class => 'userlink' %></p>
+        <% else %>
+          <%= link_to "#{gossip.likes.count} likes", nil, :class => 'userlink' %></p>
+        <% end %>
+          </div>
+        </div>
+      <% end %>
     </div>
+  </div>
   </div>
 

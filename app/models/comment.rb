@@ -3,4 +3,5 @@ class Comment < ApplicationRecord
             presence: true
   belongs_to :gossip
   belongs_to :user
+  has_many :likes
 end

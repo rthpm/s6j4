@@ -1,7 +1,11 @@
 class GossipController < ApplicationController
+  include SessionHelper
+  before_action :authenticate_user, except: %i[index show]
+
   def welcome; end
 
   def index
+    @gossip = Gossip.new
     @all_gossips = Gossip.all
   end
 
@@ -14,7 +18,7 @@ class GossipController < ApplicationController
   end
 
   def create
-    @gossip = Gossip.new(title: params[:title], content: params[:content], user: User.all.sample)
+    @gossip = Gossip.new(title: params[:title], content: params[:content], user: current_user)
 
     if @gossip.save
       flash[:notice] = 'Gossip envoyé !'
@@ -26,6 +30,7 @@ class GossipController < ApplicationController
 
   def edit
     @gossip = Gossip.find(params[:id])
+    rights_user?(@gossip)
   end
 
   def update

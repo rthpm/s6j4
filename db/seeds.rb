@@ -6,12 +6,15 @@ require 'faker'
 end
 
 10.times do
+  otp = Faker::Internet.password(min_length: 8, max_length: 20)
   User.create!(first_name: Faker::Name.first_name,
                last_name: Faker::Name.last_name,
                email: Faker::Internet.email,
                age: rand(18..98),
                description: Faker::Lorem.paragraph,
-               city: City.all.sample)
+               city: City.all.sample,
+               password: otp,
+               password_confirmation: otp)
 end
 
 100.times do
@@ -24,4 +27,18 @@ end
   Comment.create!(content: Faker::Lorem.paragraph,
                   gossip: Gossip.all.sample,
                   user: User.all.sample)
+end
+
+400.times do
+  Like.create!(
+    gossip: Gossip.all.sample,
+    user: User.all.sample
+  )
+end
+
+400.times do
+  Like.create!(
+    comment: Comment.all.sample,
+    user: User.all.sample
+  )
 end

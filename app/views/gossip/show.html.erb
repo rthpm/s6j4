@@ -5,13 +5,35 @@
         <h1><%= @gossip.title %></h1>
         <p><%= @gossip.content %></p>
         <p class="text-mute"><small>Gossipé le <%= @gossip.created_at.to_s(:db) %> depuis <%= link_to @gossip.user.city.name, "/city/#{@gossip.user.city.id}" %></small></p>
-        <%= link_to "Éditer le Gossip", "/gossip/#{@gossip.id}/edit", class: 'btn btn-sm btn-dark' %>
-        <%= link_to "Effacer le Gossip", @gossip, method: :delete, class: 'btn btn-sm btn-dark' %><br/>
-      <%= link_to '← Retour', "javascript:history.back()", :class => 'btn btn-outline-dark btn-sm mt-3' %>
-      <h2 class="h4 mt-3">Commentaires</h2>
+        <% if @gossip.user == current_user %>
+          <%= link_to "Éditer le Gossip", "/gossip/#{@gossip.id}/edit", class: 'btn btn-sm btn-dark' %>
+          <%= link_to "Effacer le Gossip", @gossip, method: :delete, class: 'btn btn-sm btn-dark' %>
+        <% end %>
+      
+        <% if current_user && liked?(@gossip, current_user) %>
+          <%= link_to "#{@gossip.likes.count} likes", gossip_like_path(@gossip.id, Like.find_by(user_id: current_user.id, gossip_id: @gossip.id)), method: "delete", :class => 'btn btn-sm btn-success' %></p>
+        <% elsif current_user %>
+          <%= link_to "#{@gossip.likes.count} likes", gossip_like_index_path(@gossip.id), method: "post", :class => 'btn btn-sm btn-outline-dark' %></p>
+        <% else %>
+          <%= link_to "#{@gossip.likes.count} likes", nil, :class => 'btn btn-sm btn-outline-secondary' %></p>
+        <% end %>
+        <br/><%= link_to '← Retour', "javascript:history.back()", :class => 'btn btn-outline-dark btn-sm mt-3' %>
+
+      <p class="text-muted mt-3"><%= @gossip.comments.count %> commentaires</p>
+
+      <% if User.find_by(id: session[:user_id]) %>
+        <%= form_tag url_for(controller: 'comment', gossip_id: @gossip.id, action: 'create'), method: "post" do %>    
+          <div class="form-group">
+          <%= text_area_tag 'content', nil, class: 'form-control mb-3' %>
+          <%= submit_tag "Envoyer", class: 'btn btn-sm btn-dark mb-5' %>
+      <% end %>
+
+      </div>
+      <% end %>
+
       <div class="list-group list-group-flush">
       <% @gossip.comments.order("updated_at","created_at").reverse.each do |comment| %>
-        <%= link_to "/gossip/#{@gossip.id}/comment/#{comment.id}/edit", :action => 'go' do %>
+        <%= link_to "/gossip/#{@gossip.id}/comment/#{comment.id}/edit", :class => 'listlink', :action => 'go' do %>
           <div class="list-group-item list-group-item-action">
             <p><b><%= comment.user.first_name %> <%= comment.user.last_name %></b> <small class="text-muted"><%= time_ago_in_words(comment.created_at) %>
               <% if comment.updated_at > comment.created_at %>

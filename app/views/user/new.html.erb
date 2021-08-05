@@ -1,0 +1,61 @@
+<% if @user.errors.any? %>
+  <div class="alert alert-danger" role="alert">
+    <p>Création du compte impossible :</p>
+    <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<div class="container">
+  <div class="row">
+      <div class="form-group col col-lg-6">
+        <p class="h4 mb-4">Créer un compte</p>
+        <%= form_tag url_for(action: 'create'), method: "post" do %>    
+          <div class="row">
+            <%= label_tag 'Prénom', nil, class: 'col-sm-3' %>
+            <%= text_field_tag 'first_name', nil, placeholder: 'Jean', class: 'form-control col mb-3' %>
+          </div>
+
+          <div class="row">
+            <%= label_tag 'Nom', nil, class: 'col-sm-3' %>
+            <%= text_field_tag 'last_name', nil, placeholder: 'Jeanjean', class: 'form-control col mb-3' %>
+          </div>
+
+          <div class="row">
+            <%= label_tag 'Age', nil, class: 'col-sm-3' %>
+            <%= text_field_tag 'age', nil, placeholder: '18', class: 'form-control col mb-3' %>
+          </div>
+
+          <div class="row">
+            <%= label_tag 'Biographie', nil, class: 'col-sm-3' %>
+            <%= text_area_tag 'description', nil, placeholder: 'Jeanjean', class: 'form-control col mb-3' %>
+          </div>
+
+          <div class="row">
+            <%= label_tag 'Ville', nil, class: 'col-sm-3' %>
+            <%= select_tag "city", options_from_collection_for_select(City.all, :id, :name), class: 'form-control col mb-3 form-select' %>
+          </div>
+
+          <div class="row">
+            <%= label_tag 'email', nil, class: 'col-sm-3' %>
+            <%= text_field_tag 'email', nil, placeholder: 'jean@internet.xyz', class: 'form-control col mb-3' %>
+          </div>
+
+          <div class="row">
+            <%= label_tag 'Mot-de-passe', nil, class: 'col-sm-3' %>
+            <%= password_field_tag 'password', @user.password, class: 'form-control col mb-3' %>
+          </div>
+
+          <div class="row">
+            <%= label_tag 'Confirmation', nil, class: 'col-sm-3' %>
+            <%= password_field_tag 'password_confirmation', @user.password, class: 'form-control col mb-3' %>
+          </div>
+
+            <%= submit_tag "Connexion", class: 'btn btn-sm btn-dark' %>
+          </div>
+      </div>
+    <% end %>
+  </div>
+</div>

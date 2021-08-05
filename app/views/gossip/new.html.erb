@@ -16,9 +16,10 @@
     <%= form_tag url_for(action: 'create'), method: "post" do %>    
       <div class="form-group col col-lg-6">
           <%= text_field_tag 'title', nil, placeholder: 'Titre', class: 'form-control mb-3' %>
-          <%= text_area_tag 'content', nil, placeholder: 'À quoi pensez-vous ?', class: 'form-control mb-3' %>
+          <%= text_area_tag 'content', nil, placeholder: "À quoi pensez-vous #{current_user.first_name} ?", class: 'form-control mb-3' %>
           <%= submit_tag "Envoyer le Gossip", class: 'btn btn-sm btn-dark' %>
       </div>
     <% end %>
   </div>
 </div>
+

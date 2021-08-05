@@ -6,4 +6,5 @@ class Gossip < ApplicationRecord
   validates :content,
             presence: true
   has_many :comments
+  has_many :likes
 end

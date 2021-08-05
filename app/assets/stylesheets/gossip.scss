@@ -1,7 +1,11 @@
-a.userlink {
+a.userlink,
+a.listlink{
   text-decoration: none;
   color: #000000;
-  font-weight: bold;
+}
+
+a.userlink {
+  font-weight: normal;
 }
 
 a.userlink:hover {

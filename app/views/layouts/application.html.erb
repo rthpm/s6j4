@@ -21,10 +21,25 @@
           <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-              <%= link_to 'Team', team_path, :class => 'nav-item nav-link' %>
-              <%= link_to 'Contact', contact_path, :class => 'nav-item nav-link' %>
-            </div>
+            <ul class="navbar-nav">
+              <li class="nav-item"><%= link_to 'Team', team_path, :class => 'nav-link' %></li>
+              <li class="nav-item"><%= link_to 'Contact', contact_path, :class => 'nav-link' %></li>
+              <% if User.find_by(id: session[:user_id]) %>
+
+                <li class="nav-item"><%= link_to 'Déconnexion', session_path(session.id), method: :delete, :class => 'nav-link' %></li>
+
+              <% else %>
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Compte</a>
+                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                   <li><%= link_to 'Connexion', new_session_path, :class => 'dropdown-item' %></li>
+                   <li><%= link_to 'Créer un compte', new_user_path, :class => 'dropdown-item' %></li>
+                </ul>
+                </li>
+                </div>
+              <% end %>
+            </ul>
           </div>
         </nav>
           <% if alert %>
